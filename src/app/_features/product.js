@@ -1,9 +1,5 @@
 export function Product(props) {
-const {name, price, category, imageUrl, stock, setStock} = props;
-
-const addToCart = () => {
-    setStock(stock - 1);
-}
+const {name, price, category, imageUrl, stock, addToCart} = props;
 
 return (
     <div id="product">
@@ -12,7 +8,7 @@ return (
             <h1>Price: {price}$</h1>
             <h1>Category: {category}</h1>
             <h1>Stock: {stock}</h1>
-            <button id="button" onClick={addToCart}>Add to cart</button>
+            <button id="button" onClick={addToCart} disabled={stock == 0}>{stock > 0 ? "Add to cart" : "Out of stock"}</button>
         </div>
         <img src={imageUrl} id="image"></img>
     </div>

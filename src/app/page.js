@@ -4,11 +4,16 @@ import { Product } from "./_features/product";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([])
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [imageUrl, setimageUrl] = useState("")
   const [stock, setStock] = useState("")
+
+  const addToCart = () => {
+      setStock(stock - 1);
+    }
 
   const Add = () => {
     if(name == ""){
@@ -22,7 +27,7 @@ export default function Home() {
     } else if(stock == "" || stock <= 0){
       return
     }
-    const newProducts = [...products, {id: products.length + 1, name: name, price: price, category: category, imageUrl: imageUrl, stock: stock}];
+    const newProducts = [...products, {id: products.length + 1, name: name, price: Number(price), category: category, imageUrl: imageUrl, stock: Number(stock)}];
     setProducts(newProducts);
     setName("");
     setPrice("");
@@ -30,6 +35,16 @@ export default function Home() {
     setimageUrl("");
     setStock("")
   }
+     const handleAddToCart = (productId) => {
+      setProducts(currentProducts => 
+      currentProducts.map(product => {
+        if (product.id == productId && product.stock > 0) {
+          return {...product, stock: product.stock - 1};
+        }
+        return product;
+      })
+    );
+  };
   return (
     <div id="outterdiv">
       <div id="content">
@@ -53,7 +68,7 @@ export default function Home() {
         <h1 id="products-title">Products</h1>
         <div id="products">
           {products.map((product, index) => {
-            return <Product key = {index} name = {product.name} price = {product.price} category = {product.category} imageUrl = {product.imageUrl} stock = {product.stock} setStock = {setStock}/>
+            return <Product key = {index} name = {product.name} price = {product.price} category = {product.category} imageUrl = {product.imageUrl} stock = {product.stock} addToCart={() => handleAddToCart(product.id)}/>
           })}
         </div>
       </div>
