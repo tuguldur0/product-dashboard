@@ -1,0 +1,43 @@
+const handleAddToCart = (productId) => {
+  // 1. Find the target product
+  const targetProduct = products.find((p) => p.id === productId);
+
+  // If product doesn't exist or is out of stock, stop
+  if (!targetProduct || targetProduct.stock <= 0) return;
+
+  // 2. Update Cart state
+  setCart((prevCart) => {
+    const existingCartItem = prevCart.find((item) => item.id === productId);
+
+    if (existingCartItem) {
+      // If already in cart, increment quantity
+      return prevCart.map((item) =>
+        item.id === productId
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      // If new to cart, append new object with quantity: 1
+      return [
+        ...prevCart,
+        {
+          id: targetProduct.id,
+          name: targetProduct.name,
+          price: targetProduct.price,
+          category: targetProduct.category,
+          imageUrl: targetProduct.imageUrl,
+          quantity: 1,
+        },
+      ];
+    }
+  });
+
+  // 3. Update Products state (decrement stock by 1)
+  setProducts((prevProducts) =>
+    prevProducts.map((product) =>
+      product.id === productId
+        ? { ...product, stock: product.stock - 1 }
+        : product
+    )
+  );
+};
