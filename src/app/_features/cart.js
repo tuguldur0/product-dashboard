@@ -1,5 +1,5 @@
 export function Cart(props) {
-const {name, price, category, imageUrl, quantity, addToCart} = props;
+const {name, price, category, imageUrl, stock, addToCart} = props;
 
 return (
     <div id="product">
@@ -7,7 +7,7 @@ return (
             <h1>Product: {name}</h1>
             <h1>Price: {price}$</h1>
             <h1>Category: {category}</h1>
-            <h1>Quantity: {quantity}</h1>
+            <h1>Quantity: {stock}</h1>
             {/* <button id="button" onClick={addToCart} disabled={stock == 0}>{stock > 0 ? "Add to cart" : "Out of stock"}</button> */}
         </div>
         <img src={imageUrl} id="image"></img>

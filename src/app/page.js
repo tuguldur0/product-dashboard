@@ -32,49 +32,20 @@ export default function Home() {
     setimageUrl("");
     setStock("")
   }
-  //    const handleAddToCart = (productId) => {
-  //     cart.map(test => {if (test.id == productId) {
-  //       setDoneBefore(true);
-  //     }})
-  //     setProducts(currentProducts => 
-  //     currentProducts.map(product => {
-  //       if (product.id == productId && product.stock > 0 && doneBefore == false) {
-  //         const newCart = [...cart, {id: product.id, name: product.name, price: product.price, category: product.category, imageUrl: product.imageUrl, quantity: 1}]
-  //         setCart(newCart);
-  //         return {...product, stock: product.stock - 1};
-  //       } else {
-  //         cart.map(cartItem => {
-  //           if (cartItem.id == productId){
-              
-  //           }
-  //         })
-  //       }
-  //       // return product;
-  //     })
-  //   );
-  // };
-
   const handleAddToCart = (productId) => {
     const item = products.find((p) => p.id == productId);
     if(item.stock > 0){
       const tempCart = [...products];
       const letsCheckIfItExistsInOurCart = tempCart.find((item1) => item1.id == productId);
-      const tempProducts = tempCart.map((product) => product.id == productId ? {...product, stock: product.stock - 1} : "")
+      const tempProducts = tempCart.map((product) => product.id == productId ? {...product, stock: product.stock - 1} : product)
       setProducts(tempProducts)
       if(letsCheckIfItExistsInOurCart){
-        return tempCart.map(item2 => item2.id == productId ? {...item, quantity: quantity + 1 } : "")
+        setCart(tempCart.map(item2 => item2.id == productId ? {...item2, stock: item2.stock + 1 } : item))
       } else {
-        return {...tempCart, id: item.id, name: item.name, price: item.price, category: item.category, imageUrl: item.imageUrl, quantity: 1};
+        setCart([...tempCart, {...item, stock: 1}]);
       }
   };
 }
-
-
-
-
-
-
-  
 
   return (
     <div id="outterdiv">
@@ -105,7 +76,7 @@ export default function Home() {
         <h1 id="products-title">Cart</h1>
         <div id="cart">
           {cart.map((cartItem) => {
-            return <Cart key = {cartItem.id} name = {cartItem.name} price = {cartItem.price} category = {cartItem.category} imageUrl = {cartItem.imageUrl} quantity = {cartItem.quantity}/>
+            return <Cart key = {cartItem.id} name = {cartItem.name} price = {cartItem.price} category = {cartItem.category} imageUrl = {cartItem.imageUrl} stock = {cartItem.stock}/>
           })}
         </div>
       </div>
