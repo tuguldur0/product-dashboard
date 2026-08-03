@@ -11,7 +11,6 @@ export default function Home() {
   const [category, setCategory] = useState("");
   const [imageUrl, setimageUrl] = useState("")
   const [stock, setStock] = useState("")
-  const [doneBefore, setDoneBefore] = useState(false);
 
   const Add = () => {
     if(name == ""){
@@ -33,27 +32,50 @@ export default function Home() {
     setimageUrl("");
     setStock("")
   }
-     const handleAddToCart = (productId) => {
-      cart.map(test => {if (test.id == productId) {
-        setDoneBefore(true);
-      }})
-      setProducts(currentProducts => 
-      currentProducts.map(product => {
-        if (product.id == productId && product.stock > 0 && doneBefore == false) {
-          const newCart = [...cart, {id: product.id, name: product.name, price: product.price, category: product.category, imageUrl: product.imageUrl, quantity: 1}]
-          setCart(newCart);
-          return {...product, stock: product.stock - 1};
-        } else {
-          cart.map(cartItem => {
-            if (cartItem.id == productId){
+  //    const handleAddToCart = (productId) => {
+  //     cart.map(test => {if (test.id == productId) {
+  //       setDoneBefore(true);
+  //     }})
+  //     setProducts(currentProducts => 
+  //     currentProducts.map(product => {
+  //       if (product.id == productId && product.stock > 0 && doneBefore == false) {
+  //         const newCart = [...cart, {id: product.id, name: product.name, price: product.price, category: product.category, imageUrl: product.imageUrl, quantity: 1}]
+  //         setCart(newCart);
+  //         return {...product, stock: product.stock - 1};
+  //       } else {
+  //         cart.map(cartItem => {
+  //           if (cartItem.id == productId){
               
-            }
-          })
-        }
-        // return product;
-      })
-    );
+  //           }
+  //         })
+  //       }
+  //       // return product;
+  //     })
+  //   );
+  // };
+
+  const handleAddToCart = (productId) => {
+    const item = products.find((p) => p.id == productId);
+    if(item.stock > 0){
+      const tempCart = [...products];
+      const letsCheckIfItExistsInOurCart = tempCart.find((item1) => item1.id == productId);
+      const tempProducts = tempCart.map((product) => product.id == productId ? {...product, stock: product.stock - 1} : "")
+      setProducts(tempProducts)
+      if(letsCheckIfItExistsInOurCart){
+        return tempCart.map(item2 => item2.id == productId ? {...item, quantity: quantity + 1 } : "")
+      } else {
+        return {...tempCart, id: item.id, name: item.name, price: item.price, category: item.category, imageUrl: item.imageUrl, quantity: 1};
+      }
   };
+}
+
+
+
+
+
+
+  
+
   return (
     <div id="outterdiv">
       <div id="content">
