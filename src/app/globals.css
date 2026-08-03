@@ -16,6 +16,8 @@
   gap: 10px;
   border-radius: 10px;
   background-color: #24272B;
+  overflow-y: scroll;
+
 }
 #title {
   font-size: 24px;
@@ -58,10 +60,10 @@
   grid-template-columns: auto auto auto;
   gap: 10px;
   width: fit-content;
-  height: 60vh;
+  height: 480px;
   width: 936px;
   width: fit-content;
-  overflow-y: scroll;
+  border: 2px solid white;
 }
 .input {
   border-radius: 5px;
@@ -81,4 +83,16 @@
 }
 #options {
   width: 181px;
+}
+#cart {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 10px;
+  width: fit-content;
+  height: 480px;
+  width: 936px;
+  width: fit-content;
+  border: 2px solid white;
+  margin-bottom: 5px;
+
 }

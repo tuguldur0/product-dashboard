@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Product } from "./_features/product";
+import { Cart } from "./_features/cart";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -10,10 +11,7 @@ export default function Home() {
   const [category, setCategory] = useState("");
   const [imageUrl, setimageUrl] = useState("")
   const [stock, setStock] = useState("")
-
-  const addToCart = () => {
-      setStock(stock - 1);
-    }
+  const [doneBefore, setDoneBefore] = useState(false);
 
   const Add = () => {
     if(name == ""){
@@ -36,12 +34,23 @@ export default function Home() {
     setStock("")
   }
      const handleAddToCart = (productId) => {
+      cart.map(test => {if (test.id == productId) {
+        setDoneBefore(true);
+      }})
       setProducts(currentProducts => 
       currentProducts.map(product => {
-        if (product.id == productId && product.stock > 0) {
+        if (product.id == productId && product.stock > 0 && doneBefore == false) {
+          const newCart = [...cart, {id: product.id, name: product.name, price: product.price, category: product.category, imageUrl: product.imageUrl, quantity: 1}]
+          setCart(newCart);
           return {...product, stock: product.stock - 1};
+        } else {
+          cart.map(cartItem => {
+            if (cartItem.id == productId){
+              
+            }
+          })
         }
-        return product;
+        // return product;
       })
     );
   };
@@ -67,8 +76,14 @@ export default function Home() {
         </div>
         <h1 id="products-title">Products</h1>
         <div id="products">
-          {products.map((product, index) => {
-            return <Product key = {index} name = {product.name} price = {product.price} category = {product.category} imageUrl = {product.imageUrl} stock = {product.stock} addToCart={() => handleAddToCart(product.id)}/>
+          {products.map((product) => {
+            return <Product key = {product.id} name = {product.name} price = {product.price} category = {product.category} imageUrl = {product.imageUrl} stock = {product.stock} addToCart={() => handleAddToCart(product.id)}/>
+          })}
+        </div>
+        <h1 id="products-title">Cart</h1>
+        <div id="cart">
+          {cart.map((cartItem) => {
+            return <Cart key = {cartItem.id} name = {cartItem.name} price = {cartItem.price} category = {cartItem.category} imageUrl = {cartItem.imageUrl} quantity = {cartItem.quantity}/>
           })}
         </div>
       </div>

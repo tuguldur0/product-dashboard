@@ -1,0 +1,16 @@
+export function Cart(props) {
+const {name, price, category, imageUrl, quantity, addToCart} = props;
+
+return (
+    <div id="product">
+        <div id="text">
+            <h1>Product: {name}</h1>
+            <h1>Price: {price}$</h1>
+            <h1>Category: {category}</h1>
+            <h1>Quantity: {quantity}</h1>
+            {/* <button id="button" onClick={addToCart} disabled={stock == 0}>{stock > 0 ? "Add to cart" : "Out of stock"}</button> */}
+        </div>
+        <img src={imageUrl} id="image"></img>
+    </div>
+  );
+}
