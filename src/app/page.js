@@ -11,6 +11,36 @@ export default function Home() {
   const [category, setCategory] = useState("");
   const [imageUrl, setimageUrl] = useState("")
   const [stock, setStock] = useState("")
+  const [isAllSelected, setIsAllSelected] = useState(true);
+  const [isLaptopSelected, setIsLaptopSelected] = useState(false);
+  const [isPhoneSelected, setIsPhoneSelected] = useState(false);
+  const [isConsoleSelected, setIsConsoleSelected] = useState(false);
+  const [total, setTotal] = useState(0)
+
+  const heylookimselectingall = () => {
+    setIsAllSelected(true)
+    setIsLaptopSelected(false)
+    setIsPhoneSelected(false)
+    setIsConsoleSelected(false)
+  }
+  const heylookimselectinglaptop = () => {
+    setIsLaptopSelected(true)
+    setIsAllSelected(false)
+    setIsPhoneSelected(false)
+    setIsConsoleSelected(false)
+  }
+  const heylookimselectingphone = () => {
+    setIsPhoneSelected(true)
+    setIsAllSelected(false)
+    setIsLaptopSelected(false)
+    setIsConsoleSelected(false)
+  }
+  const heylookimselectingconsole = () => {
+    setIsConsoleSelected(true)
+    setIsAllSelected(false)
+    setIsLaptopSelected(false)
+    setIsPhoneSelected(false)
+  }
 
   const Add = () => {
     if(name == ""){
@@ -32,24 +62,32 @@ export default function Home() {
     setimageUrl("");
     setStock("")
   }
-  const handleAddToCart = (productId) => {
-    const item = products.find((p) => p.id == productId);
-    if(item.stock > 0){
-      const tempCart = [...products];
-      const letsCheckIfItExistsInOurCart = tempCart.find((item1) => item1.id == productId);
-      const tempProducts = tempCart.map((product) => product.id == productId ? {...product, stock: product.stock - 1} : product)
-      setProducts(tempProducts)
-      if(letsCheckIfItExistsInOurCart){
-        setCart(tempCart.map(item2 => item2.id == productId ? {...item2, stock: item2.stock + 1 } : item))
+const handleAddToCart = (productId) => {
+    const product = products.find((p) => p.id === productId);
+    setTotal(total + product.price)
+    if (product.stock > 0){
+    setProducts((prevProducts) =>
+      prevProducts.map((p) =>
+        p.id == productId ? { ...p, stock: p.stock - 1 } : p
+      )
+    );
+    setCart((prevCart) => {
+      const existingCartItem = prevCart.find((item) => item.id === productId);
+      if (existingCartItem) {
+        return prevCart.map((item) =>
+          item.id == productId ? { ...item, stock: item.stock + 1 } : item
+        );
       } else {
-        setCart([...tempCart, {...item, stock: 1}]);
+        return [...prevCart, { ...product, stock: 1 }];
       }
+    });
+    }
   };
-}
 
   return (
     <div id="outterdiv">
       <div id="content">
+        <div>
         <h1 id="title">Product Dashboard</h1>
         <div id="addproduct">
           <div id="inputs">
@@ -66,20 +104,46 @@ export default function Home() {
             <input onChange={(event) => { setStock(event.target.value) }} type="number" className="input" value={stock} placeholder="Stock"></input>
           </div>
           <button onClick={Add} id="button">Add</button>
+          <div id="sort">
+            <p id="text">Sort by category:</p>
+            <button id="button0" onClick={heylookimselectingall}>All</button>
+            <button id="button0" onClick={heylookimselectinglaptop}>Laptop</button>
+            <button id="button0" onClick={heylookimselectingphone}>Phone</button>
+            <button id="button0" onClick={heylookimselectingconsole}>Console</button>
+          </div>
         </div>
         <h1 id="products-title">Products</h1>
         <div id="products">
-          {products.map((product) => {
+          {isAllSelected ? products.map((product) => {
             return <Product key = {product.id} name = {product.name} price = {product.price} category = {product.category} imageUrl = {product.imageUrl} stock = {product.stock} addToCart={() => handleAddToCart(product.id)}/>
-          })}
+          }) : isLaptopSelected ? products.map((product) => {
+            if(product.category == "Laptop"){
+              return <Product key = {product.id} name = {product.name} price = {product.price} category = {product.category} imageUrl = {product.imageUrl} stock = {product.stock} addToCart={() => handleAddToCart(product.id)}/>
+            }
+          }): isPhoneSelected ? products.map((product) => {
+            if(product.category == "Phone"){
+              return <Product key = {product.id} name = {product.name} price = {product.price} category = {product.category} imageUrl = {product.imageUrl} stock = {product.stock} addToCart={() => handleAddToCart(product.id)}/>
+            }
+          }): isConsoleSelected ? products.map((product) => {
+            if(product.category == "Console"){
+              return <Product key = {product.id} name = {product.name} price = {product.price} category = {product.category} imageUrl = {product.imageUrl} stock = {product.stock} addToCart={() => handleAddToCart(product.id)}/>
+            }
+          }): <p></p>} 
         </div>
-        <h1 id="products-title">Cart</h1>
+        </div>
+        <div>
+        <h1 id="title">Cart</h1>
         <div id="cart">
           {cart.map((cartItem) => {
             return <Cart key = {cartItem.id} name = {cartItem.name} price = {cartItem.price} category = {cartItem.category} imageUrl = {cartItem.imageUrl} stock = {cartItem.stock}/>
           })}
         </div>
+
+        </div>
+        <p id="title">Total Price: {total}$</p>
+
       </div>
+      
     </div>
   );
 }

@@ -9,15 +9,14 @@
 }
 #content {
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  justify-content: center;
   height: 80vh;
   width: 90vw;
   gap: 10px;
   border-radius: 10px;
   background-color: #24272B;
   overflow-y: scroll;
-
+  margin: 10px;
 }
 #title {
   font-size: 24px;
@@ -63,7 +62,6 @@
   height: 480px;
   width: 936px;
   width: fit-content;
-  border: 2px solid white;
 }
 .input {
   border-radius: 5px;
@@ -92,7 +90,107 @@
   height: 480px;
   width: 936px;
   width: fit-content;
-  border: 2px solid white;
   margin-bottom: 5px;
+}
+#sort {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+#sort p {
+  width: fit-content;
+}
+#button0 {
+  height: fit-content;
+  border: 2px solid #0073ff;
+  border-radius: 10px;
+  padding: 2px;
+  color: white;
+  background-color: #0073ff;
+  width: 80px;
+}
 
+
+#main1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+#buttons1 {
+  display: flex;
+  gap: 10px;
+}
+.button1 {
+  border: 1px solid grey;
+  padding: 3px;
+  border-radius: 5px;
+}
+#result1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#outcome1 {
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px;
+}
+
+#content2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+#text2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 4px;
+  width: 300px;
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px;
+  box-sizing: border-box;
+  color: white;
+}
+#main2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5vh;
+  gap: 50px;
+  border: 2px solid grey;
+  border-radius: 16px;
+  height: fit-content;
+  width: fit-content;
+  justify-content: center;
+}
+#inputs2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.input2 {
+  border: 2px solid gray;
+  border-radius: 5px;
+  padding: 3px;
+}
+#users2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+#button2 {
+  border: 2px solid grey;
+  border-radius: 5px;
+  width: fit-content;
+  padding: 2px 5px 2px 5px
 }
