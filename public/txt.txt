@@ -1,34 +1,149 @@
-const handleAddToCart = (productId) => {
-  const targetProduct = products.find((p) => p.id === productId);
-  if (!targetProduct || targetProduct.stock <= 0) return;
-  setCart((prevCart) => {
-    const existingCartItem = prevCart.find((item) => item.id === productId);
-    if (existingCartItem) {
-      return prevCart.map((item) =>
-        item.id === productId
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-    } else {
-      return [
-        ...prevCart,
-        {
-          id: targetProduct.id,
-          name: targetProduct.name,
-          price: targetProduct.price,
-          category: targetProduct.category,
-          imageUrl: targetProduct.imageUrl,
-          quantity: 1,
-        },
-      ];
-    }
-  });
+"use client";
+import React, { useState } from "react";
+import { Product } from "./_features/product";
+import { Cart } from "./_features/cart";
 
-  setProducts((prevProducts) =>
-    prevProducts.map((product) =>
-      product.id === productId
-        ? { ...product, stock: product.stock - 1 }
-        : product
-    )
+export default function Home() {
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [stock, setStock] = useState("");
+
+  const Add = () => {
+    // Input Validation
+    if (!name.trim()) return;
+    if (!price || Number(price) <= 0) return;
+    if (!category) return;
+    if (!imageUrl.trim()) return;
+    if (!stock || Number(stock) <= 0) return;
+
+    const newProduct = {
+      id: Date.now(), // Unique ID using timestamp
+      name: name.trim(),
+      price: Number(price),
+      category,
+      imageUrl: imageUrl.trim(),
+      stock: Number(stock),
+    };
+
+    setProducts([...products, newProduct]);
+
+    // Reset input fields
+    setName("");
+    setPrice("");
+    setCategory("");
+    setImageUrl("");
+    setStock("");
+  };
+
+  const handleAddToCart = (productId) => {
+    const product = products.find((p) => p.id === productId);
+    if (!product || product.stock <= 0) return;
+
+    // 1. Decrease stock in products list
+    setProducts((prevProducts) =>
+      prevProducts.map((p) =>
+        p.id === productId ? { ...p, stock: p.stock - 1 } : p
+      )
+    );
+
+    // 2. Add or increment item in cart
+    setCart((prevCart) => {
+      const existingCartItem = prevCart.find((item) => item.id === productId);
+
+      if (existingCartItem) {
+        return prevCart.map((item) =>
+          item.id === productId ? { ...item, stock: item.stock + 1 } : item
+        );
+      } else {
+        return [...prevCart, { ...product, stock: 1 }];
+      }
+    });
+  };
+
+  return (
+    <div id="outterdiv">
+      <div id="content">
+        <h1 id="title">Product Dashboard</h1>
+        
+        <div id="addproduct">
+          <div id="inputs">
+            <input
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              className="input"
+              value={name}
+              placeholder="Name"
+            />
+            <input
+              onChange={(e) => setPrice(e.target.value)}
+              type="number"
+              className="input"
+              value={price}
+              placeholder="Price"
+            />
+            <label htmlFor="options"></label>
+            <select
+              id="options"
+              className="input"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="" disabled>Category</option>
+              <option value="Laptop">Laptop</option>
+              <option value="Phone">Phone</option>
+              <option value="Console">Console</option>
+            </select>
+            <input
+              onChange={(e) => setImageUrl(e.target.value)}
+              type="text"
+              className="input"
+              value={imageUrl}
+              placeholder="imageUrl"
+            />
+            <input
+              onChange={(e) => setStock(e.target.value)}
+              type="number"
+              className="input"
+              value={stock}
+              placeholder="Stock"
+            />
+          </div>
+          <button onClick={Add} id="button">Add</button>
+        </div>
+
+        <h1 id="products-title">Products</h1>
+        <div id="products">
+          {products.map((product) => (
+            <Product
+              key={product.id}
+              name={product.name}
+              price={product.price}
+              category={product.category}
+              imageUrl={product.imageUrl}
+              stock={product.stock}
+              addToCart={() => handleAddToCart(product.id)}
+            />
+          ))}
+        </div>
+
+        <h1 id="products-title">Cart</h1>
+        <div id="cart">
+          {cart.map((cartItem) => (
+            <Cart
+              key={cartItem.id}
+              name={cartItem.name}
+              price={cartItem.price}
+              category={cartItem.category}
+              imageUrl={cartItem.imageUrl}
+              stock={cartItem.stock}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
-};
+}
