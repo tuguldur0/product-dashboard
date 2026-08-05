@@ -194,3 +194,51 @@
   width: fit-content;
   padding: 2px 5px 2px 5px
 }
+
+
+
+#content3 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+#grid3{
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 5px;
+}
+#productcard3 {
+  height: 400px;
+  width: fit-content;
+  border: 2px solid grey;
+  border-radius: 12px;
+  padding: 5px;
+  overflow: hidden;
+}
+#button3 {
+  width: 100px;
+  height: 30px;
+  border: 2px solid grey;
+  border-radius: 5px;
+}
+#search3 {
+  border: 2px solid grey;
+  border-radius: 5px;
+  padding: 0px 3px 0px 3px;
+}
+#searchbutton3 {
+  width: fit-content;
+  height: fit-content;
+}
+#inputs {
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+#changePage {
+  display: flex;
+  justify-content: space-between;
+  width: 50px;
+  
+}
